@@ -1,0 +1,505 @@
+import React, { Component } from 'react';
+import {createStackNavigator, createAppContainer} from 'react-navigation';
+import { Constants } from 'expo'; 
+import { AppRegistry, StyleSheet, TextInput, View, Alert, Button, 
+  ActivityIndicator, ListView, Text, ImageBackground,Image, ScrollView,Platform } from 'react-native';
+ 
+ import { StackNavigator } from 'react-navigation';
+
+ class Sinup extends React.Component {
+static navigationOptions =
+   {
+      title: 'Inyarwanda.com',
+   };
+ 
+constructor(props) {
+ 
+    super(props)
+ 
+    this.state = {
+ 
+      UserName: '',
+      UserEmail: '',
+      UserPassword: ''
+ 
+    }
+ 
+  }
+ 
+  UserRegistrationFunction = () =>{
+ 
+ 
+ const { UserName }  = this.state ;
+ const { UserEmail }  = this.state ;
+ const { UserPassword }  = this.state ;
+ 
+ 
+ 
+fetch('https://redemmku.000webhostapp.com/inyarwanda/inyarwanda/user_registration.php', {
+  method: 'POST',
+  headers: {
+    'Accept': 'application/json',
+    'Content-Type': 'application/json',
+  },
+  body: JSON.stringify({
+ 
+    name: UserName,
+ 
+    email: UserEmail,
+ 
+    password: UserPassword
+ 
+  })
+ 
+}).then((response) => response.json())
+      .then((responseJson) => {
+ 
+// Showing response message coming from server after inserting records.
+       // Alert.alert(responseJson);
+       if(responseJson === 'Data Matched')
+       {
+
+           //Then open Profile activity and send user email to profile activity.
+           this.props.navigation.navigate('HomePage', { Email: UserEmail });
+
+       }
+       else{
+
+         Alert.alert(responseJson);
+       }
+
+      }).catch((error) => {
+        console.error(error);
+      });
+ 
+ 
+  }
+ 
+  render() {
+    return (
+      <ImageBackground source={{uri:'https://images.pexels.com/photos/1166646/pexels-photo-1166646.jpeg?auto=compress&cs=tinysrgb&dpr=1&w=500'}} style={{width: '100%', height: '100%'}}>
+       <Text></Text>
+      <Image
+          style={{width: 400, height: 200}}
+          source={{uri: 'https://redemmku.000webhostapp.com/inyarwanda/inyarwanda/inyardalogo.jpg'}}
+        />
+ 
+<View style={styles.MainContainer}>
+
+ 
+ 
+        <Text style= {{ fontSize: 30, color: "#000", textAlign: 'center', marginBottom: 15 }}>User Registration Form</Text>
+  
+        <TextInput
+          
+          // Adding hint in Text Input using Place holder.
+          placeholder="Enter User Name"
+ 
+          onChangeText={UserName => this.setState({UserName})}
+ 
+          // Making the Under line Transparent.
+          underlineColorAndroid='transparent'
+ 
+          style={styles.TextInputStyleClass}
+        />
+ 
+        <TextInput
+          
+          // Adding hint in Text Input using Place holder.
+          placeholder="Enter User Email"
+ 
+          onChangeText={UserEmail => this.setState({UserEmail})}
+ 
+          // Making the Under line Transparent.
+          underlineColorAndroid='transparent'
+ 
+          style={styles.TextInputStyleClass}
+        />
+ 
+        <TextInput
+          
+          // Adding hint in Text Input using Place holder.
+          placeholder="Enter User Password"
+ 
+          onChangeText={UserPassword => this.setState({UserPassword})}
+ 
+          // Making the Under line Transparent.
+          underlineColorAndroid='transparent'
+ 
+          style={styles.TextInputStyleClass}
+ 
+          secureTextEntry={true}
+        />
+ 
+        <Button title="Click Here To Register" onPress={this.UserRegistrationFunction} color="#222211" />
+       <Text></Text>
+     <Text></Text>
+      <Text></Text>
+     <Text>If already have account, clic to Login</Text>
+   <Button title="Click To Login" onPress={()=>this.props.navigation.navigate('Profile')} color="grey" />
+ 
+</View>
+</ImageBackground>
+            
+    );
+  }
+}
+ 
+ class Login extends React.Component {
+
+ static navigationOptions = {
+    title: 'Inyarwanda.com',
+  };
+
+constructor(props) {
+ 
+    super(props)
+ 
+    this.state = {
+ 
+      UserEmail: '',
+      UserPassword: ''
+ 
+    }
+ 
+  }
+ 
+UserLoginFunction = () =>{
+ 
+ const { UserEmail }  = this.state ;
+ const { UserPassword }  = this.state ;
+ 
+ 
+fetch('https://redemmku.000webhostapp.com/inyarwanda/inyarwanda/User_Login.php', {
+  method: 'POST',
+  headers: {
+    'Accept': 'application/json',
+    'Content-Type': 'application/json',
+  },
+  body: JSON.stringify({
+ 
+    email: UserEmail,
+ 
+    password: UserPassword
+ 
+  })
+ 
+}).then((response) => response.json())
+      .then((responseJson) => {
+ 
+        // If server response message same as Data Matched
+       if(responseJson === 'Data Matched')
+        {
+ 
+            //Then open Profile activity and send user email to profile activity.
+            this.props.navigation.navigate('HomePage', { Email: UserEmail });
+ 
+        }
+        else{
+ 
+          Alert.alert(responseJson);
+        }
+ 
+      }).catch((error) => {
+        console.error(error);
+      });
+ 
+ 
+  }
+ 
+
+  render() {
+    return (
+<ImageBackground source={{uri:'https://images.pexels.com/photos/1166646/pexels-photo-1166646.jpeg?auto=compress&cs=tinysrgb&dpr=1&w=500'}} style={{width: '100%', height: '100%'}}>
+<Text></Text>
+ <Image
+          style={{width: 400, height: 200}}
+          source={{uri:           'https://redemmku.000webhostapp.com/inyarwanda/inyarwanda/inyardalogo.jpg'}}
+        />
+
+   <View style={styles.container}>
+    <Text></Text>
+     <Text></Text>
+     <Text></Text>
+      <Text></Text>
+     <Text></Text>
+     <Text></Text>
+      <Text></Text>
+     <Text></Text>
+     <Text></Text>
+     
+    <Text style= {{ fontSize: 30, color: "#000", textAlign: 'center', marginBottom: 15 }}>login page</Text>
+    <TextInput
+        style={{borderColor: '#55552b',  marginLeft:9,  borderWidth: 3, borderRadius: 5}}
+        onChangeText={UserEmail => this.setState({UserEmail})}
+        placeholder=" User email"/>
+        <Text></Text>
+     <Text></Text>
+     <Text></Text>
+    <TextInput
+        style={{ borderColor: '#55552b',   marginLeft:9,  borderWidth: 3, borderRadius: 5}}
+        
+        onChangeText={UserPassword => this.setState({UserPassword})}
+        placeholder="      User password"/> 
+         <Text></Text>
+     <Text></Text>
+     <Text></Text>
+         
+          <Text> </Text>
+          <Button title="Click To Login" onPress={this.UserLoginFunction} color="#2196F3"  style={{width: 200}} />
+ 
+      </View>
+      </ImageBackground>
+    );
+  }
+}
+// Creating Profile activity.
+class ProfileActivity extends Component {
+  static navigationOptions = {
+    title: 'Inyarwanda.com',
+  };
+ 
+  constructor(props) {
+    super(props);
+    this.state = {
+      isLoading: true
+    }
+  }
+  
+ GetItem (id) {
+   
+  this.props.navigation.navigate('FullStory', { Hello:id });
+
+  
+  }
+  
+  
+  componentDidMount() {
+  
+    return fetch('https://redemmku.000webhostapp.com/inyarwanda/inyarwanda/homepage.php')
+      .then((response) => response.json())
+      .then((responseJson) => {
+        let ds = new ListView.DataSource({rowHasChanged: (r1, r2) => r1 !== r2});
+        this.setState({
+          isLoading: false,
+          dataSource: ds.cloneWithRows(responseJson),
+        }, function() {
+          // In this block you can do something with new state.
+        });
+      })
+      .catch((error) => {
+        console.error(error);
+      });
+  }
+  
+  ListViewItemSeparator = () => {
+    return (
+      <View
+        style={{
+          height: .5,
+          width: "100%",
+          backgroundColor: "#000",
+        }}
+      />
+    );
+  }
+  
+  
+  render() {
+    if (this.state.isLoading) {
+      return (
+        <View style={{flex: 1, paddingTop: 20}}>
+          <ActivityIndicator />
+        </View>
+      );
+    }
+  
+    return (
+  
+      <View style={styles.MainContainer}>
+  
+        <ListView
+  
+          dataSource={this.state.dataSource}
+  
+          renderSeparator= {this.ListViewItemSeparator}
+  
+          renderRow={(rowData) =>
+  
+         <View style={{flex:1, flexDirection: 'row'}}>
+  
+           <Image source = {{ uri: rowData.story_image }} style={styles.imageViewContainer} />
+         
+           <Text onPress={this.GetItem.bind(this, rowData.id)} style={styles.textViewContainer} >{rowData.story_title}     {rowData.date} </Text>
+  
+         </View>
+          }
+        />
+  
+      </View>
+    );
+  }
+ }
+
+ class Wholestory extends Component {
+  static navigationOptions = {
+    title: 'Inyarwanda.com',
+  };
+  constructor(props) {
+    super(props);
+    this.state = {
+      isLoading: true,
+      story: this.props.navigation.state.params.Hello
+    }
+  }
+  componentDidMount() {
+    story = this.state.story;
+    return fetch('https://redemmku.000webhostapp.com/inyarwanda/inyarwanda/full_story.php', {
+      method: 'POST',
+      headers: {
+        'Accept': 'application/json',
+        'Content-Type': 'application/json',
+      },
+      body: JSON.stringify({
+     
+        name: story,
+     
+       
+     
+      })
+    })
+      .then((response) => response.json())
+      .then((responseJson) => {
+        let ds = new ListView.DataSource({rowHasChanged: (r1, r2) => r1 !== r2});
+        this.setState({
+          isLoading: false,
+          dataSource: ds.cloneWithRows(responseJson),
+        }, function() {
+          // In this block you can do something with new state.
+        });
+      })
+    .catch((error) => {
+      console.error(error);
+    })
+
+
+}
+
+  render() {
+    if (this.state.isLoading) {
+      return (
+        <View style={{flex: 1, paddingTop: 20}}>
+          <ActivityIndicator />
+        </View>
+      );
+    }
+   
+    return (
+      
+      
+       <View style={styles.MainContainer}>
+  
+  <ListView
+
+    dataSource={this.state.dataSource}
+
+    renderSeparator= {this.ListViewItemSeparator}
+
+    renderRow={(rowData) =>
+
+   <View>
+
+     <Image source = {{ uri: rowData.story_image }} style={{width:null, height:200}} />
+   
+     <Text  style={styles.Umuntwewinkuru}>{rowData.story_title}      </Text>
+     <Text style={styles.Italiki}>{rowData.date}     </Text>
+     <Text >{rowData.content}      </Text>
+     <Text style={styles.comment}>You can leave a comment      </Text>
+     <TextInput
+        style={{ borderColor: '#55552b',    borderWidth: 1}}
+      
+        placeholder=" Comment..."/>
+        <Text></Text>
+  <Button title="Send"  color="#0d260d"  style={{width: 200, marginLeft:20}} />
+
+   </View>
+    }
+  />
+  
+</View>
+     
+    );
+  }
+}
+
+const MainNavigator = createStackNavigator({
+  Home: {screen:Sinup },
+  HomePage: {screen:ProfileActivity},
+  
+  Profile: {screen:Login},
+  FullStory: {screen:Wholestory}
+});
+
+const App = createAppContainer(MainNavigator);
+export default App;
+
+const styles = StyleSheet.create({
+ 
+MainContainer :{
+ 
+justifyContent: 'center',
+flex:1,
+margin: 10
+},
+comment: {
+  paddingTop: 30,
+  paddingBottom: 10,
+  fontWeight: 'bold'
+},
+Umuntwewinkuru:{
+  fontSize: 20,
+  fontWeight: 'bold'
+
+},
+Italiki: {
+  color: 'blue',
+  fontSize: 15,
+  fontStyle: 'italic',
+  textAlign: 'Left'
+
+    },
+imageViewContainer: {
+  width: '50%',
+  height: 150 ,
+  margin: 10,
+  borderRadius : 10
+   
+  },
+  textViewContainer: {
+ 
+    textAlignVertical:'center',
+    width:'50%', 
+    padding:10
+   
+  },
+  
+ 
+TextInputStyleClass: {
+ 
+textAlign: 'center',
+marginBottom: 7,
+height: 40,
+borderWidth: 3,
+// Set border Hex Color Code Here.
+ borderColor: '#55552b',
+ 
+ // Set border Radius.
+ borderRadius: 5 ,
+ 
+// Set border Radius.
+ //borderRadius: 10 ,
+}
+ 
+});
+ 
+AppRegistry.registerComponent('MainProject', () => App);                                                                                    
